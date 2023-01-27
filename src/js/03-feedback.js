@@ -19,7 +19,7 @@ populateFormData()
 
 function onFormInput(e) {
 	// создаю для обьекта formData => ключ: значение
-	// как можно по другому реализовать 22 строку?
+	// как можно по другому реализовать 23 строку?
 	formData[e.target.name] = e.target.value
 	// console.log('onFormInput  formData', formData)
 	// помещаю обьект в хранилище + преобразовую обьект formData => в JSON-формат
