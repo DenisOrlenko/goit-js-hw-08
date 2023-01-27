@@ -4,34 +4,45 @@ const STORAGE_KEY = 'feedback-form-state';
 
 const formData = {};
 
-
+// создаю рефы
 const refs = {
 	form: document.querySelector(".feedback-form"),
 	email: document.querySelector('.feedback-form input'),
   message: document.querySelector('.feedback-form textarea'),
 }
 
+// вешаю слушатель события на форму при собитии INPUT, SUBMIT
 refs.form.addEventListener('submit', onFormSubmit);
-refs.form.addEventListener('input', throttle(onFormInput, 1000));
+refs.form.addEventListener('input', throttle(onFormInput, 500 ));
 
 populateFormData()
 
 function onFormInput(e) {
+	// создаю для обьекта formData => ключ: значение
+	// как можно по другому реализовать 22 строку?
 	formData[e.target.name] = e.target.value
+	// console.log('onFormInput  formData', formData)
+	// помещаю обьект в хранилище + преобразовую обьект formData => в JSON-формат
 	localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
 function onFormSubmit(e) {
 	console.log(JSON.parse(localStorage.getItem('feedback-form-state')));
+	// запрет перезагрузки страницы при отправке формы
 	e.preventDefault()
+	// очищение полей формы при отправке формы
 	e.target.reset()
+	// очищение локального хранилища при отправке формы
 	localStorage.removeItem(STORAGE_KEY)
 
 }
-
+// функция сохранения значений введенных пользователем в поля формы, в случае потери данных (презагрузка страницы)
 function populateFormData() {
+	// распарсиваю значение из хранилища
 	const data = JSON.parse(localStorage.getItem('feedback-form-state'));
+	// в случае перезагрузки страницы и если пользователем было введено значение в поле формы (оно автоматически записывается в хранилище)
   if (data) {
+		// присваиваю значение для полей формы из локального хранилища
     refs.email.value = data.email;
     refs.message.value = data.message;
   }
