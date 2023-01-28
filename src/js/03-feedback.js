@@ -27,25 +27,18 @@ function onFormInput(e) {
 }
 
 function onFormSubmit(e) {
+	// запрет перезагрузки страницы при отправке формы
 	e.preventDefault()
 	// если одно из полей формі не заполнено - alert
 	if (refs.email.value === "" || refs.message.value === "") {
     return alert("Please fill in all the fields!");
   }
 	else {
-	// if (!formData[refs.input.name] || !formData[refs.textarea.name]) {
-  //   alert('Заповніть форму');
-	// }
-	// if (e.currentTarget.elements.email.value === '' || e.currentTarget.elements.message.value === '') {
-	// 	return alert('Please, fill in all fealds')
-// }
-	console.log(JSON.parse(localStorage.getItem('feedback-form-state')));
-	// запрет перезагрузки страницы при отправке формы
-
-	// очищение полей формы при отправке формы
-	e.target.reset()
-	// очищение локального хранилища при отправке формы
-	localStorage.removeItem(STORAGE_KEY)
+		console.log(JSON.parse(localStorage.getItem('feedback-form-state')));
+		// очищение полей формы при отправке формы
+		e.target.reset()
+		// очищение локального хранилища при отправке формы
+		localStorage.removeItem(STORAGE_KEY)
 	}
 }
 // функция сохранения значений введенных пользователем в поля формы, в случае потери данных (презагрузка страницы)
