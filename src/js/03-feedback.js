@@ -52,7 +52,6 @@ function populateFormData() {
   if (data) {
 		// распарсиваю значение из хранилища для дальнейшего использования значения в JS-формате
 		formData = JSON.parse(data);
-		console.log('formData', formData)
 		// присваиваю значение для полей формы (refs.email.value) из локального хранилища (значения свойств обьекта: formData.email, formData.message) в случае потери данных из полей формы (например - перезагрузка страницы)
 		// или заполняю пустой строкой (''), чтобы не было ошибки underfined
     refs.email.value = formData.email || '';
