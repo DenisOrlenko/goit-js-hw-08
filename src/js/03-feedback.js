@@ -37,6 +37,11 @@ function onFormSubmit(e) {
 
 function onFormInput(e) {
 	// создаю для обьекта formData => ключ: значение
+// 		1) ключ = e.target.name => получаем из элементов формы, которые имеют атрибут name=""
+// 		2) ключ name приходит к нам в виде строки ""
+// 		Доступ к свойству объекта Object[]
+// или
+// 		Object[] - Создаю свойство объекта через обращение к свойству -> [] (если свойство задается в виде строки "")
 	formData[e.target.name] = e.target.value
 	// console.log('onFormInput  formData', formData)
 	// помещаю обьект в хранилище (т.е. преобразовую обьект formData в JSON-формат)
@@ -85,3 +90,19 @@ function populateFormData() {
 // 3.2 Создаю запись в локальном хранилище (localStorage) в виде объекта (formData) => преобразовую JS-обьект в JSON-формат (JSON.stringify(formData)
 //
 // 4. Отключаю перезагрузку страницы при событии SUBMIT => event.preventDefault()
+
+//
+//
+
+// доступ к свойствам - в случае обращения через строку
+// const myCar = {
+//   make: "Ford",
+//   model: "Mustang",
+//   year: 1969,
+// };
+
+// const myCar = {
+//   make: "Ford",
+//   model: "Mustang",
+//   year: 1969,
+// };
