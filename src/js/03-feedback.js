@@ -2,7 +2,8 @@ import throttle from 'lodash.throttle';
 
 const STORAGE_KEY = 'feedback-form-state';
 
-const formData = {};
+
+let formData = {};
 
 // создаю рефы
 const refs = {
@@ -17,15 +18,6 @@ refs.form.addEventListener('input', throttle(onFormInput, 500 ));
 
 populateFormData()
 
-function onFormInput(e) {
-	// создаю для обьекта formData => ключ: значение
-	// как можно по другому реализовать 23 строку?
-	formData[e.target.name] = e.target.value
-	// console.log('onFormInput  formData', formData)
-	// помещаю обьект в хранилище + преобразовую обьект formData => в JSON-формат
-	localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-}
-
 function onFormSubmit(e) {
 	// запрет перезагрузки страницы при отправке формы
 	e.preventDefault()
@@ -34,6 +26,7 @@ function onFormSubmit(e) {
     return alert("Please fill in all the fields!");
   }
 	else {
+		// вывожу в консоль распарсенные значения полей формы
 		console.log(JSON.parse(localStorage.getItem('feedback-form-state')));
 		// очищение полей формы при отправке формы
 		e.target.reset()
@@ -41,15 +34,29 @@ function onFormSubmit(e) {
 		localStorage.removeItem(STORAGE_KEY)
 	}
 }
+
+function onFormInput(e) {
+	// создаю для обьекта formData => ключ: значение
+	formData[e.target.name] = e.target.value
+	// console.log('onFormInput  formData', formData)
+	// помещаю обьект в хранилище (т.е. преобразовую обьект formData в JSON-формат)
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+}
+
 // функция сохранения значений введенных пользователем в поля формы, в случае потери данных (презагрузка страницы)
 function populateFormData() {
-	// распарсиваю значение из хранилища
-	const data = JSON.parse(localStorage.getItem('feedback-form-state'));
+	// вывожу значение из хранилища - строка-JSON
+	const data = localStorage.getItem('feedback-form-state');
+
 	// в случае перезагрузки страницы и если пользователем было введено значение в поле формы (оно автоматически записывается в хранилище)
   if (data) {
-		// присваиваю значение для полей формы из локального хранилища
-    refs.email.value = data.email;
-    refs.message.value = data.message;
+		// распарсиваю значение из хранилища для дальнейшего использования значения в JS-формате
+		formData = JSON.parse(data);
+		console.log('formData', formData)
+		// присваиваю значение для полей формы (refs.email.value) из локального хранилища (значения свойств обьекта: formData.email, formData.message) в случае потери данных из полей формы (например - перезагрузка страницы)
+		// или заполняю пустой строкой (''), чтобы не было ошибки underfined
+    refs.email.value = formData.email || '';
+    refs.message.value = formData.message || '';
   }
 }
 //
